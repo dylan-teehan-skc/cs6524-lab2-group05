@@ -8,3 +8,13 @@
 *.run.xml
 *.pdf
 *.synctex.gz
+raw/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store
+.vscode/
