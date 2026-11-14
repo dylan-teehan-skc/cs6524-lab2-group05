@@ -1,26 +1,23 @@
+import glob
 
-import yaml
+from mypylibs.calibration import calibrate
+from mypylibs.scene import process_scene
 
-from PIL import Image
-from os import path as opath
 
-ROOT_IN = 'in'
-ROOT_OUT = 'out'
-EXT = 'png'
+def main(cam: int):
 
-def main(case: int):
+    K, D = calibrate(cam)
 
-    img = Image.open(opath.join(ROOT_IN, f'{case:02}.{EXT}'))
-    with open(opath.join(ROOT_IN, f'{case:02}.yaml')) as f:
-        params = yaml.safe_load(f)
-    
+    for frames_dir in sorted(glob.glob(f'in/{cam:02}_[0-9][0-9]_frames')):
+        process_scene(frames_dir, K, D)
+
 
 if __name__ == '__main__':
 
-    case = 0
+    cam = 0
     while(True):
-        case += 1
+        cam += 1
         try:
-            main(case)
+            main(cam)
         except FileNotFoundError:
             break
